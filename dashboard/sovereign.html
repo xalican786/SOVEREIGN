@@ -10,40 +10,47 @@
 <div id="app">
   <header>
     <div class="logo">SOVEREIGN</div>
-    <div class="status" id="status">CONNECTING...</div>
-    <div class="uptime" id="uptime">up: 0s</div>
+    <div class="tagline">MEV Extraction System</div>
+    <div class="hdr-right">
+      <span class="status-dot" id="status-dot"></span>
+      <span class="status" id="status">CONNECTING</span>
+      <span class="uptime" id="uptime">up: 0s</span>
+    </div>
   </header>
 
   <nav>
-    <button class="tab active" onclick="showTab('overview')">Overview</button>
-    <button class="tab" onclick="showTab('executor')">Executor</button>
-    <button class="tab" onclick="showTab('amplifier')">Amplifier</button>
-    <button class="tab" onclick="showTab('chains')">Chains</button>
-    <button class="tab" onclick="showTab('flash')">Flash</button>
-    <button class="tab" onclick="showTab('propeller')">Propeller</button>
-    <button class="tab" onclick="showTab('vault')">Vault</button>
-    <button class="tab" onclick="showTab('contracts')">Contracts</button>
-    <button class="tab" onclick="showTab('bundles')">Bundles</button>
-    <button class="tab" onclick="showTab('ftw')">FTW</button>
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="executor">Executor</button>
+    <button class="tab" data-tab="amplifier">Amplifier</button>
+    <button class="tab" data-tab="chains">Chains</button>
+    <button class="tab" data-tab="flash">Flash</button>
+    <button class="tab" data-tab="propeller">Propeller</button>
+    <button class="tab" data-tab="vault">Vault</button>
+    <button class="tab" data-tab="contracts">Contracts</button>
+    <button class="tab" data-tab="bundles">Bundles</button>
+    <button class="tab" data-tab="ftw">FTW ↗</button>
   </nav>
 
   <!-- OVERVIEW -->
   <div id="tab-overview" class="tab-content active">
+    <div class="banner" id="ov-banner">
+      SOVEREIGN OPERATIONAL — P10 ACTIVE — $3B/DAY TARGET
+    </div>
     <div class="grid-3">
       <div class="card">
         <div class="label">Revenue Today</div>
-        <div class="value green" id="ov-rev">$0.00</div>
+        <div class="value green lg" id="ov-rev">$0.00</div>
       </div>
       <div class="card">
         <div class="label">All-Time Revenue</div>
-        <div class="value" id="ov-total">$0.00</div>
+        <div class="value lg" id="ov-total">$0.00</div>
       </div>
       <div class="card">
-        <div class="label">Vault Balance</div>
-        <div class="value green" id="ov-vault">$0.00</div>
+        <div class="label">Vault USDC On-Chain</div>
+        <div class="value green lg" id="ov-vault">$0.00</div>
       </div>
     </div>
-    <div class="grid-3">
+    <div class="grid-4">
       <div class="card">
         <div class="label">Swaps Today</div>
         <div class="value" id="ov-swaps">0</div>
@@ -54,45 +61,71 @@
       </div>
       <div class="card">
         <div class="label">Propeller</div>
-        <div class="value" id="ov-prop">P1</div>
+        <div class="value gold" id="ov-prop">P10</div>
+      </div>
+      <div class="card">
+        <div class="label">Chains Active</div>
+        <div class="value" id="ov-chains">0/20</div>
       </div>
     </div>
     <div class="card full">
-      <div class="label">Daily Progress</div>
+      <div class="label">Daily Progress — <span id="ov-target">$3B target</span></div>
       <div class="progress-bar">
         <div class="progress-fill" id="ov-progress" style="width:0%"></div>
       </div>
-      <div class="progress-text" id="ov-progress-text">0% of daily target</div>
+      <div class="progress-labels">
+        <span id="ov-progress-pct">0%</span>
+        <span id="ov-progress-rev">$0 / $3B</span>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="label">Net Revenue (after split)</div>
+        <div class="value green" id="ov-net">$0.00</div>
+      </div>
+      <div class="card">
+        <div class="label">Velocity ($/sec)</div>
+        <div class="value" id="ov-vel">$0.00</div>
+      </div>
     </div>
   </div>
 
   <!-- EXECUTOR -->
   <div id="tab-executor" class="tab-content">
+    <div class="section-title">Executor Control</div>
     <div class="grid-2">
       <div class="card">
         <div class="label">Gas Price</div>
         <div class="value" id="ex-gas">0 gwei</div>
       </div>
       <div class="card">
-        <div class="label">Gas Status</div>
+        <div class="label">Status</div>
         <div class="value" id="ex-gasok">—</div>
       </div>
     </div>
-    <div class="grid-3">
+    <div class="grid-4">
       <div class="card">
         <div class="label">Executions Today</div>
         <div class="value" id="ex-exec">0</div>
       </div>
       <div class="card">
-        <div class="label">Success Rate</div>
-        <div class="value green" id="ex-rate">0%</div>
+        <div class="label">Successful</div>
+        <div class="value green" id="ex-succ">0</div>
       </div>
+      <div class="card">
+        <div class="label">Failed</div>
+        <div class="value red" id="ex-fail">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Success Rate</div>
+        <div class="value" id="ex-rate">0%</div>
+      </div>
+    </div>
+    <div class="grid-3">
       <div class="card">
         <div class="label">Avg Speed</div>
         <div class="value" id="ex-speed">0ms</div>
       </div>
-    </div>
-    <div class="grid-2">
       <div class="card">
         <div class="label">Peak Profit/Swap</div>
         <div class="value" id="ex-peak">$0</div>
@@ -102,92 +135,175 @@
         <div class="value" id="ex-avg">$0</div>
       </div>
     </div>
-    <div class="card full controls">
-      <button onclick="pauseExec()" class="btn-danger">Pause Executor</button>
-      <button onclick="resumeExec()" class="btn-success">Resume Executor</button>
+    <div class="control-panel">
+      <div class="section-title">Controls</div>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Gas Cap (gwei)</label>
+          <input type="number" id="ctrl-gascap" value="1000" min="50" max="5000" step="50">
+          <button onclick="setGasCap()" class="btn-primary">Set Cap</button>
+        </div>
+        <div class="control-group">
+          <label>Max Concurrent</label>
+          <input type="number" id="ctrl-concurrent" value="3" min="1" max="10">
+          <button onclick="setConcurrent()" class="btn-primary">Set</button>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button onclick="pauseExec()" class="btn-danger">⏸ Pause Executor</button>
+        <button onclick="resumeExec()" class="btn-success">▶ Resume Executor</button>
+        <button onclick="resetCounters()" class="btn-secondary">↺ Reset Counters</button>
+      </div>
     </div>
   </div>
 
   <!-- AMPLIFIER -->
   <div id="tab-amplifier" class="tab-content">
-    <div class="card full">
-      <div class="label">Blended Extraction Rate</div>
-      <div class="value green" id="amp-blended">0%</div>
+    <div class="section-title">15-Layer Amplifier</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="label">Blended Rate</div>
+        <div class="value green" id="amp-blended">0%</div>
+      </div>
+      <div class="card">
+        <div class="label">Active Layers</div>
+        <div class="value" id="amp-active">15/15</div>
+      </div>
+      <div class="card">
+        <div class="label">Est. Profit/Swap ($30M flash)</div>
+        <div class="value gold" id="amp-profit">$0</div>
+      </div>
     </div>
     <div id="amp-layers" class="layers-grid"></div>
   </div>
 
   <!-- CHAINS -->
   <div id="tab-chains" class="tab-content">
-    <div class="card">
-      <div class="label">Connected</div>
-      <div class="value" id="ch-count">0/20</div>
+    <div class="section-title">20 Chain Network</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="label">Connected</div>
+        <div class="value green" id="ch-count">0/20</div>
+      </div>
+      <div class="card">
+        <div class="label">Qualifying Swaps Today</div>
+        <div class="value" id="ch-qual">0</div>
+      </div>
+      <div class="card">
+        <div class="label">Total Blocks/Day</div>
+        <div class="value dim">1,968,532</div>
+      </div>
     </div>
     <div id="ch-grid" class="chain-grid"></div>
   </div>
 
   <!-- FLASH -->
   <div id="tab-flash" class="tab-content">
-    <div class="card full">
-      <div class="label">Total Flash Capacity</div>
-      <div class="value green" id="fl-total">$0M</div>
+    <div class="section-title">Flash Capacity</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="label">Total Capacity</div>
+        <div class="value green lg" id="fl-total">$269M</div>
+      </div>
+      <div class="card">
+        <div class="label">Flash Deployed Today</div>
+        <div class="value" id="fl-deployed">$0</div>
+      </div>
     </div>
     <div class="card full">
-      <div class="label">Flash Deployed Today</div>
-      <div class="value" id="fl-deployed">$0</div>
+      <div class="label">Source Breakdown</div>
+      <div class="source-row">
+        <span class="src-name">Balancer V2</span>
+        <span class="src-fee">0% fee</span>
+        <span class="src-note">Vault consolidates all pool liquidity</span>
+      </div>
+      <div class="source-row">
+        <span class="src-name">Aave V3</span>
+        <span class="src-fee">0.09% fee</span>
+        <span class="src-note">21 chains, $13.8B TVL</span>
+      </div>
     </div>
     <div id="fl-chains" class="flash-grid"></div>
   </div>
 
   <!-- PROPELLER -->
   <div id="tab-propeller" class="tab-content">
+    <div class="section-title">Propeller — Execution Throttle</div>
     <div class="card full">
       <div class="label">Active Level</div>
-      <div class="value" id="pr-active">P1</div>
+      <div class="value gold lg" id="pr-active">P10</div>
+      <div class="label" style="margin-top:8px" id="pr-target-label">Target: $3B/day</div>
     </div>
     <div id="pr-grid" class="propeller-grid"></div>
+    <div class="control-panel">
+      <div class="section-title">Custom Target</div>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Daily Target (USD)</label>
+          <input type="number" id="ctrl-target" placeholder="3000000000" min="1000">
+          <button onclick="setCustomTarget()" class="btn-primary">Set Target</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- VAULT -->
   <div id="tab-vault" class="tab-content">
-    <div class="grid-2">
+    <div class="section-title">SovereignVault</div>
+    <div class="grid-3">
       <div class="card">
-        <div class="label">Vault USDC Balance</div>
-        <div class="value green" id="vt-bal">$0.00</div>
+        <div class="label">USDC Balance (on-chain)</div>
+        <div class="value green lg" id="vt-bal">$0.00</div>
       </div>
       <div class="card">
-        <div class="label">Recycler Balance</div>
+        <div class="label">Recycler (Aave)</div>
         <div class="value" id="vt-rec">$0.00</div>
+      </div>
+      <div class="card">
+        <div class="label">First Revenue</div>
+        <div class="value" id="vt-first">Pending</div>
       </div>
     </div>
     <div class="card full">
-      <div class="label">Split: 70% Treasury / 20% Recycler / 10% Reserve</div>
+      <div class="label">Revenue Split</div>
       <div class="split-bar">
-        <div class="split-treasury">70%</div>
-        <div class="split-recycler">20%</div>
-        <div class="split-reserve">10%</div>
+        <div class="split-treasury">Treasury 70%</div>
+        <div class="split-recycler">Recycler 20%</div>
+        <div class="split-reserve">Reserve 10%</div>
       </div>
     </div>
-    <div class="card full controls">
-      <button onclick="reconcileTreasury()" class="btn-primary">Force Reconcile</button>
+    <div class="control-panel">
+      <div class="section-title">Vault Controls</div>
+      <div class="control-row">
+        <div class="control-group">
+          <label>Reconcile Treasury Balance</label>
+          <button onclick="reconcileTreasury()" class="btn-primary">Force Reconcile</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- CONTRACTS -->
   <div id="tab-contracts" class="tab-content">
+    <div class="section-title">Deployed Contracts</div>
+    <div class="card full">
+      <div class="label">Deployment Status</div>
+      <div class="value" id="ct-status">Awaiting 0.1 POL</div>
+    </div>
     <div id="ct-list" class="contract-list"></div>
     <div class="card full">
-      <div class="label">Executor</div>
+      <div class="label">Executor Wallet</div>
       <div class="addr" id="ct-exec">—</div>
     </div>
     <div class="card full">
-      <div class="label">Treasury</div>
-      <div class="addr" id="ct-treas">—</div>
+      <div class="label">Treasury Wallet (classified)</div>
+      <div class="addr dim">0xCCCF1C9A2154750A0D7CceeD51fE0f9b4c1906e8</div>
     </div>
   </div>
 
   <!-- BUNDLES -->
   <div id="tab-bundles" class="tab-content">
+    <div class="section-title">Flashbots Bundles</div>
     <div class="grid-3">
       <div class="card">
         <div class="label">Submitted</div>
@@ -202,126 +318,208 @@
         <div class="value" id="bn-rate">0%</div>
       </div>
     </div>
+    <div class="card full">
+      <div class="label">Relay</div>
+      <div class="addr">https://polygon.flashbots.net</div>
+    </div>
   </div>
 
-  <!-- FTW — Flash To Wallet -->
+  <!-- FTW -->
   <div id="tab-ftw" class="tab-content">
+    <div class="section-title">FTW — Flash To Wallet</div>
     <div class="card full">
-      <h3>Withdraw USDC → Fiat</h3>
-      <div class="form-group">
-        <label>Amount (USDC)</label>
-        <input type="number" id="ftw-amount" placeholder="1000" min="1" step="1">
+      <div class="label">Vault Balance Available</div>
+      <div class="value green" id="ftw-avail">$0.00 USDC</div>
+    </div>
+    <div class="card full">
+      <div class="ftw-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Amount (USDC)</label>
+            <input type="number" id="ftw-amount" placeholder="1000" min="1" step="1">
+          </div>
+          <div class="form-group">
+            <label>Network</label>
+            <select id="ftw-network">
+              <option value="wave">Wave Mobile Money</option>
+              <option value="afrimoney">Afrimoney</option>
+              <option value="qmoney">QMoney</option>
+              <option value="bank">Bank Transfer (GMD)</option>
+              <option value="international">International Wire</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone / Account</label>
+            <input type="text" id="ftw-phone" placeholder="+220XXXXXXX">
+          </div>
+          <div class="form-group">
+            <label>Beneficiary Name</label>
+            <input type="text" id="ftw-name" placeholder="Bun Omar SECKA">
+          </div>
+        </div>
+        <div class="form-group" id="swift-group" style="display:none">
+          <label>SWIFT Code</label>
+          <input type="text" id="ftw-swift" placeholder="BICIGSXXX">
+        </div>
+        <div id="ftw-quote" class="quote-box hidden"></div>
+        <div class="btn-row">
+          <button onclick="getQuote()" class="btn-primary">Get Quote</button>
+          <button onclick="doWithdraw()" class="btn-success" id="ftw-submit" disabled>Withdraw Now</button>
+        </div>
+        <div id="ftw-result" class="result-box hidden"></div>
       </div>
-      <div class="form-group">
-        <label>Network</label>
-        <select id="ftw-network">
-          <option value="wave">Wave Mobile Money</option>
-          <option value="afrimoney">Afrimoney</option>
-          <option value="qmoney">QMoney</option>
-          <option value="bank">Bank Transfer (GMD)</option>
-          <option value="international">International Wire</option>
-        </select>
+    </div>
+
+    <div class="card full">
+      <div class="section-title">Fee Schedule</div>
+      <div class="fee-table">
+        <div class="fee-row"><span>Wave Mobile Money</span><span class="gold">1.5%</span></div>
+        <div class="fee-row"><span>Afrimoney</span><span class="gold">1.5%</span></div>
+        <div class="fee-row"><span>QMoney</span><span class="gold">1.5%</span></div>
+        <div class="fee-row"><span>Bank (GMD)</span><span class="gold">1.25%</span></div>
+        <div class="fee-row"><span>International Wire</span><span class="gold">1.25%</span></div>
+        <div class="fee-row"><span>Crypto</span><span class="gold">1.0%</span></div>
       </div>
-      <div class="form-group">
-        <label>Phone / Account Number</label>
-        <input type="text" id="ftw-phone" placeholder="+220XXXXXXX">
-      </div>
-      <div class="form-group">
-        <label>Beneficiary Name</label>
-        <input type="text" id="ftw-name" placeholder="Bun Omar SECKA">
-      </div>
-      <div id="ftw-quote" class="quote-box hidden"></div>
-      <div class="controls">
-        <button onclick="getQuote()" class="btn-primary">Get Quote</button>
-        <button onclick="withdraw()" class="btn-success" id="ftw-submit" disabled>Withdraw</button>
-      </div>
-      <div id="ftw-result" class="result-box hidden"></div>
     </div>
   </div>
 </div>
 
 <script>
-let state = {}
-const ws  = new WebSocket(`ws://${location.host}`)
+let state   = {}
+let wsReady = false
+const ws    = new WebSocket(`ws://${location.host}`)
 
+ws.onopen = () => {
+  wsReady = true
+  document.getElementById('status').textContent     = 'LIVE'
+  document.getElementById('status-dot').className   = 'status-dot green'
+}
+ws.onclose = () => {
+  wsReady = false
+  document.getElementById('status').textContent     = 'DISCONNECTED'
+  document.getElementById('status-dot').className   = 'status-dot red'
+  setTimeout(() => location.reload(), 5000)
+}
 ws.onmessage = e => {
-  state = JSON.parse(e.data)
-  update()
+  try { state = JSON.parse(e.data); update() } catch {}
 }
 
-ws.onopen    = () => document.getElementById('status').textContent = 'LIVE'
-ws.onclose   = () => document.getElementById('status').textContent = 'DISCONNECTED'
-
+// ── FORMAT ────────────────────────────────────────────────────────────────────
 function fmt(n) {
-  if (!n) return '$0.00'
-  if (n >= 1e12) return '$' + (n/1e12).toFixed(3) + 'T'
-  if (n >= 1e9)  return '$' + (n/1e9).toFixed(3) + 'B'
-  if (n >= 1e6)  return '$' + (n/1e6).toFixed(3) + 'M'
+  if (!n || n === 0) return '$0.00'
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(4) + 'T'
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(4) + 'B'
+  if (n >= 1e6)  return '$' + (n/1e6).toFixed(4) + 'M'
   if (n >= 1e3)  return '$' + (n/1e3).toFixed(2) + 'K'
   return '$' + n.toFixed(2)
 }
 
 function fmtUptime(s) {
+  if (!s) return 'up: 0s'
   const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60
   return `up: ${h}h ${m}m ${sec}s`
 }
 
+// ── UPDATE ────────────────────────────────────────────────────────────────────
 function update() {
   if (!state || state.booting) return
-  document.getElementById('uptime').textContent = fmtUptime(state.uptime || 0)
+  document.getElementById('uptime').textContent = fmtUptime(state.uptime)
 
   // Overview
   document.getElementById('ov-rev').textContent     = fmt(state.revToday)
   document.getElementById('ov-total').textContent   = fmt(state.revTotal)
   document.getElementById('ov-vault').textContent   = fmt(state.vaultBalance)
-  document.getElementById('ov-swaps').textContent   = (state.swapsToday || 0).toLocaleString()
+  document.getElementById('ov-swaps').textContent   = (state.swapsToday   || 0).toLocaleString()
   document.getElementById('ov-natural').textContent = (state.naturalToday || 0).toLocaleString()
-  document.getElementById('ov-prop').textContent    = state.propeller || 'P1'
+  document.getElementById('ov-prop').textContent    = state.propeller || 'P10'
+  document.getElementById('ov-chains').textContent  = (state.chainCount || 0) + '/20'
+  document.getElementById('ov-net').textContent     = fmt(state.netToday)
+  document.getElementById('ov-vel').textContent     = fmt(state.velocity || 0) + '/s'
+
   const prog = state.progress || 0
-  document.getElementById('ov-progress').style.width = prog + '%'
-  document.getElementById('ov-progress-text').textContent =
-    prog.toFixed(2) + '% of ' + fmt(state.dailyTarget) + ' daily target'
+  document.getElementById('ov-progress').style.width  = Math.min(prog, 100) + '%'
+  document.getElementById('ov-progress-pct').textContent = prog.toFixed(2) + '%'
+  document.getElementById('ov-progress-rev').textContent =
+    fmt(state.revToday) + ' / ' + fmt(state.dailyTarget)
+  document.getElementById('ov-target').textContent = fmt(state.dailyTarget) + ' target'
 
   // Executor
-  document.getElementById('ex-gas').textContent   = (state.gasPrice || 0).toFixed(1) + ' gwei'
-  document.getElementById('ex-gasok').textContent = state.gasOK ? '✓ ACTIVE' : '⚠ PAUSED'
-  document.getElementById('ex-gasok').className   = 'value ' + (state.gasOK ? 'green' : 'red')
-  const succ = state.successToday || 0, fail = state.failToday || 0, tot = succ + fail
-  document.getElementById('ex-exec').textContent  = (state.execToday || 0).toLocaleString()
-  document.getElementById('ex-rate').textContent  = tot > 0 ? Math.round(succ/tot*100) + '%' : '0%'
-  document.getElementById('ex-speed').textContent = (state.execSpeed || 0).toFixed(1) + 'ms'
-  document.getElementById('ex-peak').textContent  = fmt(state.peakSwap)
-  document.getElementById('ex-avg').textContent   = fmt(state.avgSwap)
+  document.getElementById('ex-gas').textContent    = (state.gasPrice || 0).toFixed(1) + ' gwei'
+  const gasOK = state.gasOK !== false
+  document.getElementById('ex-gasok').textContent  = gasOK ? '✓ ACTIVE' : '⚠ PAUSED'
+  document.getElementById('ex-gasok').className    = 'value ' + (gasOK ? 'green' : 'red')
+  const succ = state.successToday || 0
+  const fail = state.failToday    || 0
+  const tot  = succ + fail
+  document.getElementById('ex-exec').textContent   = (state.execToday || 0).toLocaleString()
+  document.getElementById('ex-succ').textContent   = succ.toLocaleString()
+  document.getElementById('ex-fail').textContent   = fail.toLocaleString()
+  document.getElementById('ex-rate').textContent   = tot > 0 ? Math.round(succ/tot*100) + '%' : '0%'
+  document.getElementById('ex-speed').textContent  = (state.execSpeed || 0).toFixed(1) + 'ms'
+  document.getElementById('ex-peak').textContent   = fmt(state.peakSwap)
+  document.getElementById('ex-avg').textContent    = fmt(state.avgSwap)
 
   // Amplifier
-  document.getElementById('amp-blended').textContent =
-    ((state.blendedRate || 0) * 100).toFixed(4) + '%'
+  const br = (state.blendedRate || 0) * 100
+  document.getElementById('amp-blended').textContent = br.toFixed(4) + '%'
+  document.getElementById('amp-profit').textContent  = fmt(30_000_000 * (state.blendedRate || 0))
+  const activeLayers = (state.ampLayers || []).filter(l => l.active).length
+  document.getElementById('amp-active').textContent  = activeLayers + '/15'
+
+  // Render amp layers once, then update rates
   const ampDiv = document.getElementById('amp-layers')
-  if (state.ampLayers && ampDiv.children.length === 0) {
-    ampDiv.innerHTML = state.ampLayers.map(l => `
-      <div class="layer-card">
-        <div class="layer-id">L${l.id}</div>
-        <div class="layer-name">${l.name}</div>
-        <div class="layer-rate">${l.pct}</div>
-        <div class="layer-usd">${fmt(l.usd)}</div>
-      </div>
-    `).join('')
+  if (state.ampLayers) {
+    if (ampDiv.children.length === 0) {
+      ampDiv.innerHTML = state.ampLayers.map(l => `
+        <div class="layer-card" id="layer-${l.id}">
+          <div class="layer-header">
+            <span class="layer-id">L${l.id}</span>
+            <label class="toggle">
+              <input type="checkbox" ${l.active ? 'checked' : ''}
+                onchange="toggleLayer(${l.id}, this.checked)">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="layer-name">${l.name}</div>
+          <div class="layer-rate" id="lrate-${l.id}">${l.pct}</div>
+          <div class="layer-usd"  id="lusd-${l.id}">${fmt(l.usd)}</div>
+          <input type="number" class="layer-input" id="linput-${l.id}"
+            value="${(l.rate * 100).toFixed(4)}" step="0.001" min="0" max="5"
+            onchange="setLayerRate(${l.id}, this.value)">
+          <span class="layer-input-label">% rate</span>
+        </div>
+      `).join('')
+    } else {
+      state.ampLayers.forEach(l => {
+        const rEl = document.getElementById('lrate-' + l.id)
+        const uEl = document.getElementById('lusd-'  + l.id)
+        if (rEl) rEl.textContent = l.pct
+        if (uEl) uEl.textContent = fmt(l.usd)
+      })
+    }
   }
 
   // Chains
   document.getElementById('ch-count').textContent = (state.chainCount || 0) + '/20'
+  document.getElementById('ch-qual').textContent  = (state.naturalToday || 0).toLocaleString()
   const chDiv = document.getElementById('ch-grid')
-  if (state.chainStates && chDiv.children.length === 0) {
-    chDiv.innerHTML = Object.entries(state.chainStates).map(([name, ok]) => `
-      <div class="chain-card ${ok ? 'ok' : 'err'}">
-        <span>${name}</span>
-        <span>${ok ? '✓' : '✗'}</span>
-      </div>
-    `).join('')
-  } else if (state.chainStates) {
-    Object.entries(state.chainStates).forEach(([name, ok], i) => {
-      if (chDiv.children[i]) chDiv.children[i].className = `chain-card ${ok ? 'ok' : 'err'}`
-    })
+  if (state.chainStates) {
+    if (chDiv.children.length === 0) {
+      chDiv.innerHTML = Object.entries(state.chainStates).map(([name, ok]) => `
+        <div class="chain-card ${ok ? 'ok' : 'err'}" id="chain-${name}">
+          <span class="chain-name">${name}</span>
+          <span class="chain-status">${ok ? '✓' : '✗'}</span>
+        </div>
+      `).join('')
+    } else {
+      Object.entries(state.chainStates).forEach(([name, ok]) => {
+        const el = document.getElementById('chain-' + name)
+        if (el) el.className = `chain-card ${ok ? 'ok' : 'err'}`
+      })
+    }
   }
 
   // Flash
@@ -332,36 +530,50 @@ function update() {
     flDiv.innerHTML = Object.entries(state.flashPerChain).map(([name, f]) => `
       <div class="flash-card">
         <div class="flash-chain">${name}</div>
-        <div class="flash-bal">${fmt(f.balancer)} Balancer</div>
-        <div class="flash-aave">${fmt(f.aave)} Aave</div>
-        <div class="flash-total green">${fmt(f.total)} total</div>
+        <div class="flash-row"><span>Balancer</span><span class="green">${fmt(f.balancer)}</span></div>
+        <div class="flash-row"><span>Aave</span><span>${fmt(f.aave)}</span></div>
+        <div class="flash-row total"><span>Total</span><span class="green">${fmt(f.total)}</span></div>
       </div>
     `).join('')
   }
 
   // Propeller
-  document.getElementById('pr-active').textContent = state.propeller || 'P1'
+  const activeP = state.propeller || 'P10'
+  document.getElementById('pr-active').textContent       = activeP
+  document.getElementById('pr-target-label').textContent = 'Target: ' + fmt(state.dailyTarget)
   const prDiv = document.getElementById('pr-grid')
-  if (state.propellerStats && prDiv.children.length === 0) {
-    prDiv.innerHTML = state.propellerStats.map(p => `
-      <div class="prop-card ${state.propeller === p.level ? 'active' : ''}"
-           onclick="setLevel('${p.level}')">
-        <div class="prop-level">${p.level}</div>
-        <div class="prop-label">${p.label}</div>
-        <div class="prop-chains">${p.chains} chains</div>
-      </div>
-    `).join('')
-  } else if (state.propellerStats) {
-    Array.from(prDiv.children).forEach((el, i) => {
-      el.className = `prop-card ${state.propeller === state.propellerStats[i]?.level ? 'active' : ''}`
-    })
+  if (state.propellerStats) {
+    if (prDiv.children.length === 0) {
+      prDiv.innerHTML = state.propellerStats.map(p => `
+        <div class="prop-card ${activeP === p.level ? 'active' : ''}"
+             id="prop-${p.level}" onclick="setLevel('${p.level}')">
+          <div class="prop-level">${p.level}</div>
+          <div class="prop-label">${p.label}</div>
+          <div class="prop-chains">${p.chains} chains</div>
+        </div>
+      `).join('')
+    } else {
+      state.propellerStats.forEach(p => {
+        const el = document.getElementById('prop-' + p.level)
+        if (el) el.className = `prop-card ${activeP === p.level ? 'active' : ''}`
+      })
+    }
   }
 
   // Vault
-  document.getElementById('vt-bal').textContent = fmt(state.vaultBalance)
-  document.getElementById('vt-rec').textContent = fmt(state.recyclerBal)
+  document.getElementById('vt-bal').textContent   = fmt(state.vaultBalance)
+  document.getElementById('vt-rec').textContent   = fmt(state.recyclerBal)
+  document.getElementById('vt-first').textContent = state.firstRev ? '✓ CONFIRMED' : 'Pending'
+  document.getElementById('vt-first').className   = 'value ' + (state.firstRev ? 'green' : 'dim')
+  document.getElementById('ftw-avail').textContent = fmt(state.vaultBalance) + ' USDC'
 
   // Contracts
+  const deployed = state.deployment
+  document.getElementById('ct-status').textContent = deployed
+    ? `✓ ${state.contracts} contracts deployed`
+    : 'Awaiting 0.1 POL → ' + (state.executor || '')
+  document.getElementById('ct-status').className = 'value ' + (deployed ? 'green' : 'gold')
+  document.getElementById('ct-exec').textContent  = state.executor || '—'
   const ctDiv = document.getElementById('ct-list')
   if (state.contractAddrs && ctDiv.children.length === 0) {
     ctDiv.innerHTML = Object.entries(state.contractAddrs).map(([k, v]) => `
@@ -371,72 +583,109 @@ function update() {
       </div>
     `).join('')
   }
-  document.getElementById('ct-exec').textContent  = state.executor  || '—'
-  document.getElementById('ct-treas').textContent = state.treasury  || '—'
 
   // Bundles
   const bs = state.bundleStats || {}
-  document.getElementById('bn-sub').textContent  = bs.submitted  || 0
-  document.getElementById('bn-land').textContent = bs.landed     || 0
+  document.getElementById('bn-sub').textContent  = (bs.submitted  || 0).toLocaleString()
+  document.getElementById('bn-land').textContent = (bs.landed     || 0).toLocaleString()
   document.getElementById('bn-rate').textContent = bs.landingRate || '0%'
 }
 
-// Tab switching
-function showTab(id) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'))
-  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'))
-  document.getElementById('tab-' + id)?.classList.add('active')
-  event.target.classList.add('active')
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.tab
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'))
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'))
+    document.getElementById('tab-' + id)?.classList.add('active')
+    btn.classList.add('active')
+  })
+})
+
+// ── NETWORK SELECT — show SWIFT for international ─────────────────────────────
+document.getElementById('ftw-network')?.addEventListener('change', e => {
+  document.getElementById('swift-group').style.display =
+    e.target.value === 'international' ? 'block' : 'none'
+})
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+async function api(path, body) {
+  const r = await fetch(path, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    body ? JSON.stringify(body) : undefined,
+  })
+  return r.json()
 }
 
-// Actions
-async function pauseExec() {
-  await fetch('/api/executor/pause', { method: 'POST' })
+async function pauseExec()    { await api('/api/executor/pause') }
+async function resumeExec()   { await api('/api/executor/resume') }
+async function resetCounters(){ await api('/api/executor/reset') }
+
+async function setGasCap() {
+  const v = parseInt(document.getElementById('ctrl-gascap').value)
+  if (v > 0) await api('/api/executor/gascap', { gwei: v })
 }
-async function resumeExec() {
-  await fetch('/api/executor/resume', { method: 'POST' })
+
+async function setConcurrent() {
+  const v = parseInt(document.getElementById('ctrl-concurrent').value)
+  if (v > 0) await api('/api/executor/concurrent', { max: v })
 }
+
 async function setLevel(level) {
-  await fetch('/api/propeller', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ level }),
-  })
+  await api('/api/propeller', { level })
 }
+
+async function setCustomTarget() {
+  const v = parseFloat(document.getElementById('ctrl-target').value)
+  if (v > 0) await api('/api/propeller/target', { target: v })
+}
+
 async function reconcileTreasury() {
-  await fetch('/api/treasury/reconcile', { method: 'POST' })
+  await api('/api/treasury/reconcile')
+}
+
+async function toggleLayer(id, active) {
+  await api('/api/amplifier/toggle', { id, active })
+}
+
+async function setLayerRate(id, pct) {
+  const rate = parseFloat(pct) / 100
+  if (rate >= 0 && rate <= 0.05) await api('/api/amplifier/layer', { id, rate })
 }
 
 // FTW
 async function getQuote() {
   const amount  = parseFloat(document.getElementById('ftw-amount').value)
   const network = document.getElementById('ftw-network').value
-  if (!amount) return
-  const r = await fetch('/api/ftw/quote', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount, network }),
-  })
-  const d = await r.json()
+  if (!amount || amount <= 0) return
+  const d = await api('/api/ftw/quote', { amount, network })
   const qb = document.getElementById('ftw-quote')
-  qb.innerHTML = `Gross: $${d.gross} | Fee: $${d.fee} (${d.rate}) | Net: $${d.net} ${network.toUpperCase()}`
+  qb.innerHTML = `
+    Gross: <b>$${d.gross}</b> USDC &nbsp;|&nbsp;
+    Fee: <b>$${d.fee}</b> (${d.rate}) &nbsp;|&nbsp;
+    Net: <b class="green">$${d.net}</b> GMD via ${network.toUpperCase()}
+  `
   qb.classList.remove('hidden')
   document.getElementById('ftw-submit').disabled = false
 }
 
-async function withdraw() {
+async function doWithdraw() {
   const amount      = parseFloat(document.getElementById('ftw-amount').value)
   const network     = document.getElementById('ftw-network').value
   const phone       = document.getElementById('ftw-phone').value
   const accountName = document.getElementById('ftw-name').value
+  const swiftCode   = document.getElementById('ftw-swift').value
   const rb = document.getElementById('ftw-result')
   rb.classList.add('hidden')
+  document.getElementById('ftw-submit').disabled = true
+  document.getElementById('ftw-submit').textContent = 'Processing...'
   try {
-    const r = await fetch('/api/ftw/withdraw', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, network, phone, accountName }),
+    const d = await api('/api/ftw/withdraw', {
+      amount, network, phone, accountName, swiftCode,
     })
-    const d = await r.json()
     rb.innerHTML = d.ok
-      ? `✓ Withdrawal initiated | Net: $${d.net} | Ref: ${d.reference}`
+      ? `✓ Withdrawal initiated<br>Net: <b>$${d.net} GMD</b><br>Ref: ${d.reference}<br>Network: ${d.network}`
       : `✗ Error: ${d.error}`
     rb.className = `result-box ${d.ok ? 'ok' : 'err'}`
   } catch (e) {
@@ -444,6 +693,8 @@ async function withdraw() {
     rb.className = 'result-box err'
   }
   rb.classList.remove('hidden')
+  document.getElementById('ftw-submit').disabled = false
+  document.getElementById('ftw-submit').textContent = 'Withdraw Now'
 }
 </script>
 </body>
