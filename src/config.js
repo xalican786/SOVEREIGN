@@ -87,8 +87,8 @@ export const PROPELLER = {
   P10: {  target: 3_000_000_000, label: '$3B/day',    chains: 20 },
 }
 
-export let ACTIVE_PROPELLER = 'P1'
-export let DAILY_TARGET     = PROPELLER.P1.target
+export let ACTIVE_PROPELLER = 'P10'
+export let DAILY_TARGET     = PROPELLER.P10.target
 
 export function setPropeller(level) {
   if (!PROPELLER[level]) return false
