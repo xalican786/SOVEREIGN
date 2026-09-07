@@ -21,8 +21,8 @@ export const HOT = new Float64Array(SAB)
 
 // Boot defaults
 HOT[H.GAS_OK]       = 1
-HOT[H.PROPELLER]    = 1
-HOT[H.DAILY_TARGET] = PROPELLER.P1.target
+HOT[H.PROPELLER]    = 10
+HOT[H.DAILY_TARGET] = PROPELLER.P10.target
 
 const tf = (TOTAL_FLASH_CAPACITY / 1e6).toFixed(0)
 
