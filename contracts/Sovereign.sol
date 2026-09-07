@@ -151,7 +151,7 @@ contract Sovereign {
         uint8   strategy,
         bytes   calldata stratData
     ) external nonReentrant onlyOwner {
-        totalExecutions++
+        totalExecutions++;
         bytes memory userData = abi.encode(strategy, stratData);
         IBalancerVault(BALANCER).flashLoan(address(this), tokens, amounts, userData);
     }
